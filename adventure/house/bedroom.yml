@@ -1,0 +1,47 @@
+scene:
+    title: Bedroom
+    description: |
+        You are in a small bedroom. There is a bookshelf on the east and a bed in the middle.
+    exit:
+        north: house/landing-s
+    hidden_exit:
+        - east: house/hidden-room
+
+objects:
+    bookshelf:
+        description: |
+            Looks like a bookshelf, but not a sturdy one. It seems to be movable.
+        actions:
+            - push,move    # We can push or move
+            - pull         # Pull triggers another event (drops the bookshelf on your head, for instance, decreases health points)
+    bed:
+        type: container
+        description: |
+            A nice bed. There is a pillow on it.
+        contains:
+            - pillow
+        actions:
+            - sleep  # (Could increase health points)
+    pillow:
+        type: object
+        description: |
+            Looks like a nice fluffy pillow.
+    note:
+        type: object
+        state: hidden     # This object is hidden unless it's triggered to visible by something
+        description: |
+            It seems there is a note under the bed.
+        actions:
+            - read        # Read the note
+    lamp:
+        type: object
+        description: |
+            It seems like a lamp. Have you tried turning it off and on again..
+        actions:
+            - turn_on     # Turn on the lamp, will display other items in the room?
+            - turn_off    # Turn off the lamp, will hide other items in the room?
+
+
+
+
+

@@ -1,0 +1,16 @@
+scene:
+  title: The nursery
+  description: |
+      You are in the nursery.
+  exit:
+      east: house/landing-n
+
+
+
+
+
+
+
+
+
+

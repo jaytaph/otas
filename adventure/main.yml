@@ -1,0 +1,57 @@
+title: My adventure
+entry_scene: house/bedroom
+start: |
+  <question>!! Welcome to my adventure !!</question>
+
+  Oh hai! Welcome to our adventure. Type <comment>help</comment> to find out more information.
+
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+  magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+  magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+options:
+    max_inventory: 10
+    initial_hp: 1000
+    initial_xp: 0
+
+inventory:
+    paper:
+        name: paper
+        summary: A piece of paper
+        description: |
+            Looks like a very old ragged piece of paper. Maybe we should <info>read</info> what's on it?
+        actions:
+            - look
+        action_aliases:
+            - look:
+              - read
+        simple_hooks:
+            look_paper: |
+                There is something written on it: **934627**.
+
+                This will probably mean nothing..
+
+            drop_paper: |
+                Best not to loose it. It might come in useful later on..
+
+    potion:
+        name: flask
+        summary: A flask with potion
+        description: |
+            The label says: **drink me**. How can you argue with that!?
+        actions:
+            - look
+        simple_hooks:
+            look: |
+                It looks like this potion is some kind of replenishment. It might make us healthy again in times we aren't.
+
+            drink: |
+                **gulp gulp gulp**..  It seems to restore my health a bit!
+                # How to deal with healthpoints??
+

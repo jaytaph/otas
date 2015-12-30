@@ -1,0 +1,13 @@
+scene:
+  title: Master bedroom
+  description: |
+      You are in the master bedroom.
+  exit:
+      west: house/landing-n
+      south: house/bathroom
+
+
+
+
+
+

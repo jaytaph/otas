@@ -1,0 +1,45 @@
+scene:
+  title: Bathroom
+  description: |
+      You are in the bathroom
+  exit:
+      west: house/landing-s
+      north: house/master-bedroom
+
+#  hidden_exit:
+#      - east: house/master-bedroom
+
+#
+#objects:
+#  bookshelf:
+#      type: container
+#      description: |
+#          It's a bookshelf, but not a sturdy one
+#      options:
+#          max_storage: 5
+#      actions:
+#          - push
+#  bed:
+#      type: container
+#      description: |
+#          A nice bed. There is a pillow on it.
+#      contains:
+#          - pillow
+#      actions:
+#          - sleep
+#  pillow:
+#      type: object
+#      description: |
+#          Looks like a nice fluffy pillow.
+#  lamp:
+#      type: actor
+#      description: |
+#          It seems like a lamp. Have you tried turning it off and on again..
+#      actions:
+#          - turn_on
+#          - turn_off
+
+
+
+
+

@@ -1,0 +1,11 @@
+scene:
+  title: The landing
+  description: |
+      You are on the landing
+  exit:
+      south: house/landing-s
+      east: house/master-bedroom
+      west: house/nursery
+
+
+
