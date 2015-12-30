@@ -89,5 +89,13 @@ class Object {
         return $this->summary;
     }
 
+    /**
+     * @param null|Scene $scene
+     */
+    public function setScene($scene)
+    {
+        $this->scene = $scene;
+    }
+
 }
 

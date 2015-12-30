@@ -74,8 +74,12 @@ class Parser {
             $candidates[$k] = array_fill_keys(array_keys($v), 0);
         }
 
+        $args = array();
+
         // Iterate each word
         foreach (new WordIterator($str) as $word) {
+
+            $added = false;
 
             // Iterate each action
             foreach (array_keys($candidates) as $fqcn) {
@@ -84,13 +88,18 @@ class Parser {
                 // 'help', but only when we are checking the 'help' action'.
                 $word = $this->normalizeAliases($fqcn, $word);
 
+
                 /* Check if the word matches in the action map. It's not a very good way of matching, but it
                  * seems to work well enough for now. */
                 foreach ($candidates[$fqcn] as $idx => $ck) {
-                    if (count($actions[$fqcn][$idx]) >= $ck && $actions[$fqcn][$idx][$ck] == $word) {
+                    if (count($actions[$fqcn][$idx]) > $ck && $actions[$fqcn][$idx][$ck] == $word) {
                         $candidates[$fqcn][$idx]++;
+                        $added = true;
                     }
                 }
+            }
+            if ($added) {
+                $args[] = $word;
             }
         }
 
@@ -101,8 +110,8 @@ class Parser {
                 if (count($actions[$fqcn][$i]) == $ck) {
                     // If we already found an action, it means that more than one action matches our
                     // command. That is not ok.
-                    if ($action) {
-                        throw new ParseException("Ambiguous action");
+                    if ($action && $action != $fqcn) {
+                        throw new ParseException("Ambiguous action: previous action found: ".$action);
                     }
 
                     // Found an action, so store it for later use
@@ -118,7 +127,7 @@ class Parser {
 
         // Return the FQCN from the action, plus a (fixed) list of arguments. This can be used by the action for later
         // parsing: (ie: turn light on|off).
-        return array($action, array('foo', 'bar', 'baz'));
+        return array($action, $args);
     }
 
 

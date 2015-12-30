@@ -22,6 +22,8 @@ options:
 
 inventory:
     paper:
+        type: object
+        state: visible
         name: paper
         summary: A piece of paper
         description: |
@@ -41,6 +43,8 @@ inventory:
                 Best not to loose it. It might come in useful later on..
 
     potion:
+        type: object
+        state: visible
         name: flask
         summary: A flask with potion
         description: |

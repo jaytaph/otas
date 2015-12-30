@@ -29,19 +29,39 @@ class Look implements Action {
     }
 
     function execute(Adventure $adventure, Scene $scene, array $args) {
-        if (count($args) == 0) {
+        if (count($args) <= 1) {
             $adventure->output("Look at what?");
             return;
         }
 
-        if ($args[0] == 'around') {
+        if ($args[1] == 'around') {
             // Look around
+
+            $adventure->output("<question>".$adventure->getState()->getScene()->getTitle()."</question>\n");
+            $adventure->output("\n");
+
+            $adventure->output($adventure->getState()->getScene()->getDescription()."\n");
+            $adventure->output("\n");
+
+            $exits = $adventure->getState()->getScene()->getExits();
+
+            $str = join(", ",$adventure->getState()->getScene()->getExits()->getKeys());
+
+            if (count($exits) == 1) {
+                $adventure->output("There is " . count($exits) . " exit to the ". $str . ".\n");
+            } else {
+                $adventure->output("There are " . count($exits) . " exits: " . $str . "\n");
+            }
+            $adventure->output("\n");
+
+
+
         } else {
 
             //Look at object
-            $object = $scene->getObject($args[0]);
+            $object = $scene->getObject($args[1]);
             if (!$object) {
-                $adventure->output("There is no " . $args[0] . " to look at.");
+                $adventure->output("There is no " . $args[1] . " to look at.");
             }
 
             $adventure->output("You look at " . $object->getName());

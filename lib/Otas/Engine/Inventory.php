@@ -31,7 +31,6 @@ class Inventory implements \IteratorAggregate, \Countable {
             throw new \OverflowException("Too many items in inventory");
         }
 
-        // @TODO: $object->setScene(null);
         $this->container->add($object);
     }
 
@@ -44,8 +43,6 @@ class Inventory implements \IteratorAggregate, \Countable {
         if ($this->container->contains($object)) {
             $this->container->removeElement($object);
         }
-
-        // @TODO: $object->setScene(currentScene);
     }
 
     /**

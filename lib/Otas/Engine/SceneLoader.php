@@ -33,7 +33,7 @@ class SceneLoader  {
                 $tmp['exit'][strtolower($direction)] = $exitScene;
 
                 // Only add to stack when we haven't already processed that scene
-                if ($scenes->containsKey($exitScene)) {
+                if (! $scenes->containsKey($exitScene)) {
                     array_push($stack, $exitScene);
                 }
             }

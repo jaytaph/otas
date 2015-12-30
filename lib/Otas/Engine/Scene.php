@@ -3,6 +3,9 @@
 namespace Otas\Engine;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
+use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Scene {
 
@@ -24,8 +27,10 @@ class Scene {
     /** @var ArrayCollection Scene exits */
     protected $exits;
 
-    // Objects in the scene (including hidden objects)
+    /** @var ArrayCollection  Objects in the scene (including hidden objects) */
     protected $objects;
+
+    protected $data;
 
     /**
      * @param $key
@@ -33,12 +38,32 @@ class Scene {
      */
     function __construct($key, $data)
     {
+        // Make sure scene data is defined like we need to
+        $processor = new Processor();
+        $configuration = new SceneConfiguration();
+        $this->data = $processor->processConfiguration($configuration, $data);
+
+        // Set initial values
         $this->key = $key;
-        $this->title = $data['scene']['title'];
-        $this->description = $data['scene']['description'];
+        $this->title = $this->data['title'];
+        $this->description = $this->data['description'];
+
+        // Add objects to the scene
+        $this->objects = new ArrayCollection();
+        foreach ($this->data['objects'] as $objectKey => $objectConfig) {
+            // @TODO: This should have been normalized by the semantic configuration!
+            $objectConfig['name'] = $objectKey;
+
+            $object = ObjectFactory::create($objectConfig);
+            $object->setScene($this);
+            $this->objects->add($object);
+        }
+
+        // Set exits
         $this->exits = new ArrayCollection();
-//        $this->objects = new ArrayCollection();
-//        $this->objects->merge($objects);
+        foreach ($this->data['exit'] as $dir => $scene) {
+            $this->exits->set($dir, $scene);
+        }
     }
 
     /**
@@ -71,6 +96,14 @@ class Scene {
     public function getObjects()
     {
         return $this->objects;
+    }
+
+    public function getObject($name) {
+        if (! $this->objects->containsKey($name)) {
+            throw new \Exception(sprintf("Object %s not found", $name));
+        }
+
+        return $this->objects->get($name);
     }
 
     /**

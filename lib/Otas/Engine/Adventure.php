@@ -43,14 +43,14 @@ class Adventure {
         $this->state = new State();
 
         // Set initial values, like entry scene
-        $this->state->setScene($this->scenes->get($this->config['entry_scene']));
+        $this->state->setScene($this->getScene($this->config['entry_scene']));
 
         // Create inventory with default objects as states in the config
         $this->state->setInventory(new Inventory());
         foreach ($this->config['inventory'] as $objectConfig) {
-            $this->state->getInventory()->add(
-                ObjectFactory::create($objectConfig)
-            );
+            $object = ObjectFactory::create($objectConfig);
+            $object->setScene(null);
+            $this->state->getInventory()->add($object);
         }
 
 
@@ -59,6 +59,7 @@ class Adventure {
         $this->actions->add(new Action\Help());
         $this->actions->add(new Action\Inventory());
         $this->actions->add(new Action\Look());
+        $this->actions->add(new Action\Go());
 
         // Create a simple parser
         $this->parser = new Parser($this);
@@ -147,6 +148,14 @@ class Adventure {
      */
     public function output($str) {
         return $this->io->output($str);
+    }
+
+    function getScene($key) {
+        if (! $this->scenes->containsKey($key)) {
+            throw new \Exception("Cannot find scene $key");
+        }
+
+        return $this->scenes->get($key);
     }
 }
 
