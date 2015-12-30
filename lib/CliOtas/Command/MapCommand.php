@@ -49,7 +49,7 @@ class MapCommand extends Command {
             $scene = array_pop($stack);
             $yaml = Yaml::load($dir .'/'.$scene . '.yml');
 
-            $scenes[$scene] = array('title' => $scene, 'exit' => array(
+            $scenes[$scene] = array('key' => $scene, 'title' => $yaml['scene']['title'], 'exit' => array(
                 'north' => false,
                 'east' => false,
                 'south' => false,
@@ -75,23 +75,23 @@ class MapCommand extends Command {
 
                 switch ($direction) {
                     case 'north' :
-                        if ($scenes[$exit_scene]['exit']['south'] != $scene['title']) {
-                            throw new \Exception(sprintf("Scene '%s' exit North does match scene '%s' exit South", $scene['title'], $exit_scene));
+                        if ($scenes[$exit_scene]['exit']['south'] != $scene['key']) {
+                            throw new \Exception(sprintf("Scene '%s' exit North does match scene '%s' exit South", $scene['key'], $exit_scene));
                         }
                         break;
                     case 'south':
-                        if ($scenes[$exit_scene]['exit']['north'] != $scene['title']) {
-                            throw new \Exception(sprintf("Scene '%s' exit South does match scene '%s' exit North", $scene['title'], $exit_scene));
+                        if ($scenes[$exit_scene]['exit']['north'] != $scene['key']) {
+                            throw new \Exception(sprintf("Scene '%s' exit South does match scene '%s' exit North", $scene['key'], $exit_scene));
                         }
                         break;
                     case 'east' :
-                        if ($scenes[$exit_scene]['exit']['west'] != $scene['title']) {
-                            throw new \Exception(sprintf("Scene '%s' exit East does match scene '%s' exit West", $scene['title'], $exit_scene));
+                        if ($scenes[$exit_scene]['exit']['west'] != $scene['key']) {
+                            throw new \Exception(sprintf("Scene '%s' exit East does match scene '%s' exit West", $scene['key'], $exit_scene));
                         }
                         break;
                     case 'west' :
-                        if ($scenes[$exit_scene]['exit']['east'] != $scene['title']) {
-                            throw new \Exception(sprintf("Scene '%s' exit West does match scene '%s' exit East", $scene['title'], $exit_scene));
+                        if ($scenes[$exit_scene]['exit']['east'] != $scene['key']) {
+                            throw new \Exception(sprintf("Scene '%s' exit West does match scene '%s' exit East", $scene['key'], $exit_scene));
                         }
                         break;
                 }
