@@ -2,6 +2,8 @@
 
 namespace Otas\Engine;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 class Object {
 
     /** @var string short name of object (key, ring, paper) */
@@ -24,30 +26,35 @@ class Object {
 //    protected $container = NULL;
 //    protected $isContainer;
 
-    /** @var array Raw array options as loaded from YAML */
-    protected $options;
+    /** @var array Raw array with configuration as loaded from YAML */
+    protected $config;
 
-    function __construct($name, $summary, $description, $options)
+
+    function __construct(array $config)
     {
-        $this->name = $name;
-        $this->summary = $summary;
-        $this->description = $description;
-        $this->options = $options;
+        $resolver = new OptionsResolver();
+        $this->configureOptions($resolver);
+        $resolver->resolve($config);
+
+        $this->name = $config['name'];
+        $this->summary = $config['summary'];
+        $this->description = $config['description'];
+        $this->config = $config;
+
 //        $this->isContainer = $isContainer;
-//
 //        $this->container = new Collection();
     }
 
-//    function placeInContainer(Object $container) {
+//    function addToContainer(Object $container) {
 //        if (! $container->isContainer()) {
-//            throw new \Exception("is not a container");
+//            throw new \Exception(sprintf("%s is not a container", $container->getName());
 //        }
+//          // @toDO: Add to container
 //    }
-
+//
 //    function isContainer() {
 //        return $this->isContainer;
 //    }
-
 //
 //    /**
 //     * @return null
@@ -95,6 +102,24 @@ class Object {
     public function setScene($scene)
     {
         $this->scene = $scene;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setRequired(array(
+            'name',
+            'type',
+            'state',
+            'summary',
+            'description'
+        ));
+
+        $resolver->setDefaults(array(
+            'actions' => array(),
+            'contains' => array(),
+            'action_aliases' => array(),
+            'simple_hooks' => array(),
+        ));
     }
 
 }
